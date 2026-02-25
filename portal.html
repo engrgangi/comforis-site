@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Client Portal — Comforis Healthcare GRC</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .portal-page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background:
+        radial-gradient(ellipse 80% 60% at 30% 20%, rgba(30,58,95,0.3) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 50% at 80% 80%, rgba(13,148,136,0.08) 0%, transparent 50%),
+        var(--navy);
+    }
+    .portal-main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6rem 1rem 3rem;
+    }
+    .portal-grid {
+      width: 100%;
+      max-width: 960px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    .portal-left { padding-right: 2rem; }
+    .portal-left h1 { font-size: 2.8rem; margin-bottom: 1.5rem; }
+    .portal-feature { display: flex; gap: 1rem; margin-bottom: 1.5rem; align-items: flex-start; }
+    .portal-feature-icon { width: 40px; height: 40px; border-radius: var(--radius); background: rgba(200,169,110,0.1); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+    .portal-feature-text h5 { font-family: 'DM Sans', sans-serif; font-size: 0.9rem; font-weight: 600; color: var(--white); margin-bottom: 0.25rem; }
+    .portal-feature-text p { font-size: 0.8rem; margin: 0; }
+    #loginForm, #registerForm { display: block; }
+    #registerForm { display: none; }
+    @media (max-width: 768px) {
+      .portal-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .portal-left { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav scrolled" id="mainNav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-mark">C</div>
+      <span class="nav-logo-text">Comforis<span>.</span></span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="services.html">Services</a>
+      <a href="about.html">About</a>
+      <a href="blog.html">Insights</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="nav-cta">
+      <a href="contact.html" class="btn btn-primary">Get Assessment</a>
+    </div>
+    <button class="nav-toggle"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="portal-page">
+  <div class="portal-main">
+    <div class="portal-grid">
+
+      <!-- LEFT: Pitch -->
+      <div class="portal-left fade-up">
+        <span class="section-label">Client Portal</span>
+        <h1>Your GRC<br><em>Command Centre</em></h1>
+        <p style="margin-bottom:2.5rem;">Access your compliance dashboards, risk registers, incident logs, and assessment reports — all in one secure, healthcare-specific workspace.</p>
+        <div class="portal-feature">
+          <div class="portal-feature-icon">📊</div>
+          <div class="portal-feature-text">
+            <h5>Live Risk Dashboard</h5>
+            <p>Your risk register, control gaps, and compliance status — updated in real time.</p>
+          </div>
+        </div>
+        <div class="portal-feature">
+          <div class="portal-feature-icon">📋</div>
+          <div class="portal-feature-text">
+            <h5>Document Library</h5>
+            <p>Access all your policies, playbooks, PIAs, and assessment reports.</p>
+          </div>
+        </div>
+        <div class="portal-feature">
+          <div class="portal-feature-icon">🔔</div>
+          <div class="portal-feature-text">
+            <h5>Regulatory Alerts</h5>
+            <p>Receive alerts on regulatory changes relevant to your province and organization type.</p>
+          </div>
+        </div>
+        <div class="portal-feature">
+          <div class="portal-feature-icon">💬</div>
+          <div class="portal-feature-text">
+            <h5>Direct Team Access</h5>
+            <p>Message your Comforis GRC specialist directly from the portal.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Auth Form -->
+      <div class="fade-up delay-2">
+        <div class="portal-wrap">
+          <div class="portal-logo">
+            <div class="nav-logo-mark">C</div>
+            <h3>Welcome Back</h3>
+            <p>Sign in to your Comforis client portal</p>
+          </div>
+
+          <div class="portal-tabs">
+            <div class="portal-tab active" data-tab="loginForm" onclick="switchTab('loginForm', this)">Sign In</div>
+            <div class="portal-tab" data-tab="registerForm" onclick="switchTab('registerForm', this)">Request Access</div>
+          </div>
+
+          <!-- LOGIN FORM -->
+          <form id="loginForm" onsubmit="handlePortalLogin(event)">
+            <div class="form-group">
+              <label>Work Email</label>
+              <input type="email" required placeholder="you@organization.ca">
+            </div>
+            <div class="form-group">
+              <label>Password</label>
+              <input type="password" required placeholder="••••••••">
+            </div>
+            <div style="display:flex; justify-content:flex-end; margin-bottom:1.5rem;">
+              <a href="#" style="font-size:0.8rem; color:var(--accent);">Forgot password?</a>
+            </div>
+            <button type="submit" class="btn btn-primary form-submit">Sign In to Portal</button>
+            <div class="portal-divider"><span>OR</span></div>
+            <a href="contact.html" class="btn btn-outline" style="display:flex; justify-content:center;">Not a client yet? Book assessment</a>
+          </form>
+
+          <!-- REGISTER FORM -->
+          <form id="registerForm" style="display:none;" onsubmit="handlePortalRegister(event)">
+            <div class="form-group">
+              <label>Full Name</label>
+              <input type="text" required placeholder="Jane Smith">
+            </div>
+            <div class="form-group">
+              <label>Work Email</label>
+              <input type="email" required placeholder="jane@hospital.ca">
+            </div>
+            <div class="form-group">
+              <label>Organization</label>
+              <input type="text" required placeholder="Toronto General Hospital">
+            </div>
+            <div class="form-group">
+              <label>Your Role</label>
+              <select required>
+                <option value="">Select...</option>
+                <option>CEO / Executive Director</option>
+                <option>CIO / IT Director</option>
+                <option>Privacy Officer</option>
+                <option>Risk / Compliance Manager</option>
+                <option>Administrator</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary form-submit">Request Portal Access</button>
+            <p style="text-align:center; font-size:0.75rem; color:var(--gray-500); margin-top:1rem;">Access is granted to active Comforis clients. <a href="contact.html" style="color:var(--accent);">Not a client yet?</a></p>
+          </form>
+
+          <p class="portal-form-footer">
+            🔒 Secured with 256-bit encryption. <br>
+            Your data never leaves Canada.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Mini footer -->
+  <div style="text-align:center; padding:1.5rem; border-top:1px solid var(--border-light);">
+    <p style="font-size:0.75rem; color:var(--gray-500);">© 2026 Comforis Inc. | <a href="#" style="color:var(--gray-500);">Privacy Policy</a> | <a href="#" style="color:var(--gray-500);">Terms</a> | Hosting: Canada-based servers</p>
+  </div>
+</div>
+
+<script src="js/main.js"></script>
+<script>
+function switchTab(targetId, clickedEl) {
+  document.querySelectorAll('.portal-tab').forEach(t => t.classList.remove('active'));
+  clickedEl.classList.add('active');
+  document.getElementById('loginForm').style.display = 'none';
+  document.getElementById('registerForm').style.display = 'none';
+  document.getElementById(targetId).style.display = 'block';
+  document.querySelector('.portal-logo h3').textContent = targetId === 'loginForm' ? 'Welcome Back' : 'Request Access';
+  document.querySelector('.portal-logo p').textContent = targetId === 'loginForm' ? 'Sign in to your Comforis client portal' : 'Active clients only — request portal credentials';
+}
+
+function handlePortalLogin(e) {
+  e.preventDefault();
+  const btn = e.target.querySelector('button[type="submit"]');
+  btn.textContent = 'Signing in...';
+  setTimeout(() => {
+    btn.textContent = 'Sign In to Portal';
+    alert('Demo mode: Portal login coming soon. Contact hello@comforis.com for access.');
+  }, 1200);
+}
+
+function handlePortalRegister(e) {
+  e.preventDefault();
+  const btn = e.target.querySelector('button[type="submit"]');
+  btn.textContent = 'Sending request...';
+  setTimeout(() => {
+    btn.textContent = '✓ Request Sent';
+    btn.style.background = 'var(--teal)';
+    e.target.reset();
+    setTimeout(() => { btn.textContent = 'Request Portal Access'; btn.style.background = ''; }, 3000);
+  }, 1200);
+}
+</script>
+</body>
+</html>
